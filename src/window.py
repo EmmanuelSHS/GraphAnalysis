@@ -7,9 +7,14 @@ from datetime import datetime, timedelta
 
 class Window:
     def __init__(self):
+        """
+        flag for update, if no need for update, just output previous median degree
+        """
         self.__g = nx.Graph()
         self.__maxT = datetime.strptime("1000-01-01 01:01:00", "%Y-%m-%d %H:%M:%S")
         self.__minT = datetime.strptime("1000-01-01 01:00:00", "%Y-%m-%d %H:%M:%S")
+        self.__needUpdate = False
+        self.__prevMedian = 0
 
     def insertRec(self, json):
         time = datetime.strptime(json["created_time"], "%Y-%m-%dT%H:%M:%SZ")
@@ -23,6 +28,7 @@ class Window:
                 else:
                     self.__g[act][tar]["timestamp"] = time
                 self.__updateT(time)
+                self.__needUpdate = True
 
     def __updateT(self, newT):
         if newT > self.__maxT:
@@ -42,12 +48,16 @@ class Window:
         return len(degrees), degrees
 
     def returnMedian(self):
-        self.__updateGraph()
-        n, degrees = self.__getDegrees()
+        if self.__needUpdate:
+            self.__updateGraph()
+            n, degrees = self.__getDegrees()
 
-        if n == 0:
-            return 0
-        return degrees[n/2] if n%2 == 1 else (degrees[n/2-1] + degrees[n/2]) / 2.0
+            if n == 0:
+                self.__prevMedian = 0
+            else:
+                self.__prevMedian = degrees[n/2] if n%2 == 1 else (degrees[n/2-1] + degrees[n/2]) / 2.0
+            self.__needUpdate = False
+        return self.__prevMedian
 
     def getMaxT(self):
         return self.__maxT

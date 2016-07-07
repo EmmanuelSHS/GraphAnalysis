@@ -1,5 +1,6 @@
 # customized
 insight_testsuite/temp/*
+src/*.pyc
 
 #Byte-compiled / optimized / DLL files
 __pycache__/
