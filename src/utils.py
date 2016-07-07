@@ -2,19 +2,7 @@
 # coding=utf-8
 
 import json
-from datetime import datetime
-from window import Node
 
-def recToNodes(jsonRec):
-    # return two nodes
-    time = datetime.strptime(jsonRec["created_time"], "%Y-%m-%dT%H:%M:%SZ")
-    source = Node(jsonRec["actor"], time)
-    target = Node(jsonRec["target"], time)
-
-    source.addDependent(target)
-    target.addDependent(source)
-
-    return source, target
 
 def jsonGenerator(filepath):
     with open(filepath, 'r') as f:
@@ -22,3 +10,16 @@ def jsonGenerator(filepath):
             yield json.loads(line)
     f.close()
 
+def outputFormatter(out):
+    return "%.2f" % float(out)
+
+
+class Savor:
+    def __init__(self, filepath):
+        self.f = open(filepath, 'w')
+
+    def writeLine(self, line):
+        self.f.write(line+'\n')
+
+    def close(self):
+        self.f.close()

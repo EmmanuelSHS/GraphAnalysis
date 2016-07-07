@@ -7,7 +7,7 @@ import sys
 sys.path.append("../../../")
 
 from datetime import datetime
-from src.utils import recToNodes, jsonGenerator
+from src.utils import recToNodes, jsonGenerator, outputFormatter
 
 class UtilsTest(unittest.TestCase):
     toyJson = {"created_time": "2014-03-27T04:28:20Z", "target": "Jamie-Korn", "actor": "Jordan-Gruber"}
@@ -47,6 +47,11 @@ class UtilsTest(unittest.TestCase):
 
         self.assertEqual(1831, c)
 
+    def testFormatter(self):
+        self.assertEqual("0.00", outputFormatter(0))
+        self.assertEqual("1.00", outputFormatter(1))
+        self.assertEqual("1.25", outputFormatter(1.25333))
+        self.assertEqual("1.25", outputFormatter(1.249))
 
 if __name__ == '__main__':
     unittest.main()
