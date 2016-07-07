@@ -1,2 +1,2 @@
-# VenmoGraph
-Graph Analysis Implementation for Venmo Payment Records
+# GraphAnalysis
+Graph Analysis Implementation
