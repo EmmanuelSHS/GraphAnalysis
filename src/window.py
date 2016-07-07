@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import sys
 import networkx as nx
 from datetime import datetime, timedelta
 
 
 class Window:
     def __init__(self):
-        self.__g = nx.MultiGraph()
+        self.__g = nx.Graph()
         self.__maxT = datetime.strptime("1000-01-01 01:01:00", "%Y-%m-%d %H:%M:%S")
         self.__minT = datetime.strptime("1000-01-01 01:00:00", "%Y-%m-%d %H:%M:%S")
 
@@ -16,10 +15,14 @@ class Window:
         time = datetime.strptime(json["created_time"], "%Y-%m-%dT%H:%M:%SZ")
         act, tar = json["actor"], json["target"]
         if time >= self.__minT:
-            self.__g.add_node(act)
-            self.__g.add_node(tar)
-            self.__g.add_edge(act, tar, timestamp = time)
-            self.__updateT(time)
+            if act != "" and tar != "":
+                if not self.__g.has_edge(act, tar):
+                    self.__g.add_node(act)
+                    self.__g.add_node(tar)
+                    self.__g.add_edge(act, tar, timestamp = time)
+                else:
+                    self.__g[act][tar]["timestamp"] = time
+                self.__updateT(time)
 
     def __updateT(self, newT):
         if newT > self.__maxT:
@@ -27,7 +30,7 @@ class Window:
             self.__minT = newT - timedelta(minutes = 1)
 
     def __updateGraph(self):
-        self.__g = nx.MultiGraph([(u, v, d) for u, v, d in self.__g.edges(data = True) if self.__minT <= d["timestamp"] <= self.__maxT])
+        self.__g = nx.Graph([(u, v, d) for u, v, d in self.__g.edges(data = True) if self.__minT <= d["timestamp"] <= self.__maxT])
 
     def __getDegrees(self):
         degrees = []
