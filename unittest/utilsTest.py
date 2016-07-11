@@ -4,7 +4,7 @@
 import unittest
 import sys
 
-sys.path.append("../../../")
+sys.path.append("../")
 
 from datetime import datetime
 from src.utils import jsonGenerator, outputFormatter
@@ -14,7 +14,7 @@ class UtilsTest(unittest.TestCase):
     t = datetime.strptime(toyJson["created_time"], "%Y-%m-%dT%H:%M:%SZ")
 
     def testGenerator(self):
-        generator = jsonGenerator("../../../data-gen/venmo-trans.txt")
+        generator = jsonGenerator("./venmo-trans.txt")
         c = 0
         while True:
             try:

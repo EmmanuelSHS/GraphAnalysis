@@ -4,7 +4,7 @@
 import unittest
 import sys
 
-sys.path.append("../../../")
+sys.path.append("../")
 
 from datetime import datetime, timedelta
 from src.utils import outputFormatter
