@@ -40,4 +40,7 @@ The repo structure is :
 
 ## Usage
 Use ./run.sh to run rollingMedian.py file with given input in venmo\_input/ folder.
+
 Use ./unittest/run\_test.sh to run unittest python scripts. 
+
+
