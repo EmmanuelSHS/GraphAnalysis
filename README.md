@@ -1,5 +1,5 @@
-# Graph Analysis 
-Graph Analysis Implementation 
+# Graph Analysis for Venmo Transaction Data
+Simple Graph Analysis Implementation  for Venmo Transaction Data
 
 ## Dependency
 The implementation requires networkx 1.11 package
